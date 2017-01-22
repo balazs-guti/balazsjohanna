@@ -1,0 +1,30 @@
+{
+  "name": "balazsjohanna",
+  "version": "0.0.0",
+  "license": "MIT",
+  "main": [
+    "build/dist/app.min.js",
+    "build/dist/style.min.css"
+  ],
+  "ignore": [
+    "node_modules",
+    "bower_components",
+    "*.sublime-project",
+    "*.sublime-workspace",
+    "gulpfile.js",
+    "package.json",
+    ".editorconfig",
+    "gulp.config.json",
+    "karma.conf.js",
+    "coverage",
+    "src",
+    "!build/src"
+  ],
+  "dependencies": {
+    "angular": "~1.4.8",
+    "bootstrap-sass": "^3.3.7"
+  },
+  "devDependencies": {
+    "angular-mocks": "~1.4.8"
+  }
+}

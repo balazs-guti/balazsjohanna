@@ -1,0 +1,67 @@
+body {
+  font-family: 'Roboto Slab', serif;
+  margin: 0;
+}
+
+.head {
+  color: #fff;
+  position: relative;
+  background-image: url('../asset/image/bg.jpg');
+  background-size: cover;
+  height: 600px;
+  text-align: center;
+
+  header {
+    margin-bottom: 75px;
+  }
+
+  .head-text {
+    position: absolute;
+    transform: translateY(-50%);
+    top: 50%;
+    width: 100%;
+  }
+
+  label {
+    margin-bottom: 35px;
+    font-weight: 300;
+    display: block;
+    font-size: 32px;
+  }
+
+  input {
+    font-family: 'Roboto Slab', serif;
+    display: block;
+    margin: 0 auto 20px;
+    text-align: center;
+    border: none;
+    border-bottom: 2px solid #fff;
+    background-color: transparent;
+    height: 30px;
+    padding: 0 10px;
+    outline: none;
+    color: #fff;
+  }
+
+  .btn-primary {
+    background-color: transparent;
+    border: 2px solid $primary;
+    font-size: 16px;
+    padding: 10px 25px;
+    transition: all 0.35s ease;
+    transform: scale(1);
+    outline: none;
+
+    &:hover {
+      background-color: $primary;
+      color: #23644f;
+    }
+
+    &:active {
+      outline: none;
+      border: 2px solid $primary;
+      transform: scale(0.85);
+      box-shadow: none;
+    }
+  }
+}
