@@ -10,7 +10,7 @@
 		.module('balazsjohanna')
 		.service('loginService', loginService);
 
-	function loginService() {
+	function loginService($http) {
 		'ngInject';
 
 		var service = this;
@@ -25,9 +25,16 @@
 		}
 
  		// Public Functions
-
 		service.sendLoginData = function() {
-			console.log(service.loginData.inviteId);
+			$http({
+			  method: 'POST',
+			  url: 'http://127.0.0.1:3000/users',
+				data: {name: service.loginData.inviteId}
+			}).then(function successCallback(response) {
+			    console.log('added',response);
+			  }, function errorCallback(response) {
+					console.log('error',response);
+			  });
 		}
 
 
