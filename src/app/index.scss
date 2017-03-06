@@ -12,14 +12,15 @@ body {
   text-align: center;
 
   header {
-    margin-bottom: 75px;
+    margin-bottom: 60px;
   }
 
-  .head-text {
+  .head-container {
     position: absolute;
     transform: translateY(-50%);
     top: 50%;
     width: 100%;
+    margin: 20px 0;
   }
 
   label {
@@ -63,5 +64,24 @@ body {
       transform: scale(0.85);
       box-shadow: none;
     }
+  }
+}
+
+.main-logo {
+  width: 286px;
+}
+
+.admin-panel {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
+  transform: translateX(-50%) translateY(-50%) scale(0);
+  transition: transform 0.5s ease;
+
+  &.active {
+    transform: translateX(-50%) translateY(-50%) scale(1);
   }
 }

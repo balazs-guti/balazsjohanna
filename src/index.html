@@ -22,18 +22,24 @@
 
         <!-- This file should represent how someone can use your component. So which scripts to ref and what html is needed. -->
         <!-- Note that the final version of this will be in the build folder after you run: $ gulp build -->
-        <main ng-controller="mainController as mainCtrl">
-          <section class="head">
-            <section class="head-text">
+        <main full-page ng-controller="mainController as mainCtrl">
+          <section class="head section" style="height: {{mainCtrl.windowHeight}}px">
+            <section class="head-container">
               <header>
+                <img src="asset/image/logo.png" class="main-logo" alt="B&J logo">
+              </header>
+              <section class="head-main">
                 <label for="inviteId">Add meg a meghívódon lévő kódot</label>
                 <input id="inviteId" type="text" placeholder="Kód" ng-model="mainCtrl.loginData.inviteId">
                 <button class="btn btn-primary" ng-click="mainCtrl.login()">Bejelentkezés</button>
-              </header>
-              <footer>
-                <p ng-repeat="wish in mainCtrl.wishesData">{{wish}}</p>
-              </footer>
+              </section>
             </section>
+          </section>
+          <section class="section" style="height: {{mainCtrl.windowHeight}}px">
+            <p ng-repeat="wish in mainCtrl.wishesData">{{wish}}</p>
+          </section>
+          <section class="admin-panel" ng-class="{active: mainCtrl.loginData.loggedIn}">
+            <p ng-repeat="wish in mainCtrl.loginData.wishes">{{wish.text}}</p>
           </section>
         </main>
 
@@ -53,8 +59,9 @@
         <script src="app/index.config.js"></script>
         <script src="app/index.controller.js"></script>
         <script src="app/index.provider.js"></script>
-        <script src="app/wishes/wishes.service.js"></script>
+        <script src="app/login/getLoginData.service.js"></script>
         <script src="app/login/login.service.js"></script>
+        <script src="app/wishes/wishes.service.js"></script>
         <!-- endinject -->
         <!-- endbuild -->
 
