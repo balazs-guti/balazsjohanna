@@ -10,9 +10,7 @@
 
     angular
         .module(
-            'balazsjohanna',
-            [
-            ]
+            'balazsjohanna', ['fullpage.js']
         );
 
 })();

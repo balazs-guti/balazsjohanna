@@ -8,6 +8,7 @@
 
         <!-- build:css({.tmp/,bower_components}) dist/vendor.min.css -->
         <!-- bower:css -->
+        <link rel="stylesheet" href="../bower_components/mm.angular-fullpage.js/src/mm.angular-fullpage.css" />
         <!-- endbower -->
         <link rel="stylesheet" href="css/vendor.css">
         <!-- endbuild -->
@@ -22,8 +23,10 @@
 
         <!-- This file should represent how someone can use your component. So which scripts to ref and what html is needed. -->
         <!-- Note that the final version of this will be in the build folder after you run: $ gulp build -->
-        <main full-page ng-controller="mainController as mainCtrl">
-          <section class="head section" style="height: {{mainCtrl.windowHeight}}px">
+        <!-- <main ng-controller="mainController as mainCtrl" class="active"> -->
+        <main ng-controller="mainController as mainCtrl" ng-class="{active: mainCtrl.loginData.loggedIn}">
+        <!-- <div full-page> -->
+          <section class="head section" data-anchor="section1" style="height: {{mainCtrl.windowHeight}}px">
             <section class="head-container">
               <header>
                 <img src="asset/image/logo.png" class="main-logo" alt="B&J logo">
@@ -35,12 +38,91 @@
               </section>
             </section>
           </section>
-          <section class="section" style="height: {{mainCtrl.windowHeight}}px">
+          <section class="section" data-anchor="section2" style="height: {{mainCtrl.windowHeight}}px">
             <p ng-repeat="wish in mainCtrl.wishesData">{{wish}}</p>
           </section>
-          <section class="admin-panel" ng-class="{active: mainCtrl.loginData.loggedIn}">
-            <p ng-repeat="wish in mainCtrl.loginData.wishes">{{wish.text}}</p>
+          <!-- <section class="user-panel active"> -->
+          <section class="user-panel" ng-class="{active: mainCtrl.loginData.loggedIn}">
+            <div class="container">
+              <section class="welcome-section">
+                <h2>Sziasztok!</h2>
+                <p>
+                    Köszönjük, hogy megoszthatjuk veletek az örömünket, és velünk ünneplitek, hogy összekötjük az életünket Isten színe előtt! Kérjük ezen a felületen jelezzétek részvételi szándékotokat.
+                </p>
+                <p>
+                    Várjuk a találkozást,<br />
+                    Balázs & Johanna
+                </p>
+              </section>
+              <section class="guests-section">
+                  <h3>Vendégek</h3>
+                  <h4>Új vendég hozzáadása</h4>
+                  <section class="new-guest">
+                      <form>
+                          <section class="input-group">
+                            <div class="input-container">
+                              <p class="input-group-title">Név</p>
+                              <input class="name-input" id="name" placeholder="Vendég neve" type="text">
+                            </div>
+                          </section>
+                          <section class="input-group">
+                            <p class="input-group-title">Életkor</p>
+                            <div class="input-container">
+                              <input id="baby" name="age" type="radio"><label for="baby">0-6 éves</label>
+                            </div>
+                            <div class="input-container">
+                              <input id="child" name="age" type="radio"><label for="child">6-12 éves</label>
+                            </div>
+                            <div class="input-container">
+                              <input id="teen" name="age" type="radio"><label for="teen">13-17 éves</label>
+                            </div>
+                            <div class="input-container">
+                              <input id="adult" name="age" type="radio"><label for="adult">18 év feletti</label>
+                            </div>
+                          </section>
+                          <section class="input-group">
+                            <p class="input-group-title">Ételérzékenység</p>
+                            <div class="input-container">
+                              <input id="lactose" type="checkbox"><label for="lactose">Laktózérzékenység</label>
+                            </div>
+                            <div class="input-container">
+                              <input id="gluten" type="checkbox"><label for="gluten">Gluténérzékenység</label>
+                            </div>
+                            <div class="input-container">
+                              <input id="otherallergy" placeholder="Egyéb ételérzékenység" type="text">
+                            </div>
+                          </section>
+                          <button class="btn btn-primary">Mentés</button>
+                      </form>
+                  </section>
+                  <h4>Eddig hozzáadott vendégek</h4>
+                  <section class="guest-list">
+                      <p class="no-content-text" ng-hide="mainCtrl.loginData.guests">Még nem adtál hozzá vendégeket</p>
+                      <article class="guest" ng-repeat="guest in mainCtrl.loginData.guests">
+                          <p class="guest-name">{{guest.text}}</p>
+                          <p class="guest-details">Felnőtt, Ételérzékenység: nincs</p>
+                      </article>
+                  </section>
+              </section>
+              <section class="whishes-section">
+                  <h3>Jókívánságok</h3>
+                  <p>Hogyha szeretnétek valamilyen jókívánságot megosztani velünk, már elöljáróban, akkor itt megtehetitek. A hozzáadott jókívánságaitok hamarosan láthatóak lesznek a weboldal kezdőlapján.</p>
+                  <h4>Új jókívánság hozzáadása</h4>
+                  <section class="new-wish">
+                      <form>
+                          <textarea name="wish" id="wish" placeholder="Jókívánság szövege"></textarea>
+                          <button class="btn btn-primary">Mentés</button>
+                      </form>
+                  </section>
+                  <h4>Eddigi jókívánságaid</h4>
+                  <section class="wish-list">
+                    <p class="no-content-text" ng-hide="mainCtrl.loginData.wishes">Még nem adtál hozzá jókívánságot</p>
+                    <p ng-repeat="wish in mainCtrl.loginData.wishes">{{wish.text}}</p>
+                  </section>
+              </section>
+            </div>
           </section>
+          <!-- </div> -->
         </main>
 
 
@@ -49,6 +131,7 @@
         <script src="../bower_components/angular/angular.js"></script>
         <script src="../bower_components/jquery/dist/jquery.js"></script>
         <script src="../bower_components/bootstrap-sass/assets/javascripts/bootstrap.js"></script>
+        <script src="../bower_components/mm.angular-fullpage.js/src/mm.angular-fullpage.js"></script>
         <!-- endbower -->
         <!-- endbuild -->
 
@@ -56,6 +139,7 @@
         <!-- build:js dist/app.min.js -->
         <!-- inject:js -->
         <script src="app/index.module.js"></script>
+        <script src="app/angular-fullPage.js"></script>
         <script src="app/index.config.js"></script>
         <script src="app/index.controller.js"></script>
         <script src="app/index.provider.js"></script>
