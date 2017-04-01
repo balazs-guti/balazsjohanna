@@ -1,0 +1,115 @@
+<div class="container">
+  <section class="welcome-section">
+    <h2>Sziasztok!</h2>
+    <p>
+        Köszönjük, hogy megoszthatjuk veletek az örömünket, és velünk ünneplitek, hogy összekötjük az életünket Isten színe előtt! Kérjük ezen a felületen jelezzétek részvételi szándékotokat.
+    </p>
+    <p>
+        Várjuk a találkozást,<br />
+        Balázs & Johanna
+    </p>
+  </section>
+  <section class="guests-section">
+      <h3>Vendégek</h3>
+      <h4>Új vendég hozzáadása</h4>
+      <section class="new-guest">
+          Rendelkezésre álló meghívók száma: {{mainCtrl.loginData.invites}}
+          <form>
+              <section class="input-group">
+                <div class="input-container">
+                  <p class="input-group-title">Név</p>
+                  <input ng-model="mainCtrl.newGuest.name" class="name-input" id="name" name="name" placeholder="Vendég neve" type="text">
+                </div>
+              </section>
+              <section class="input-group">
+                <p class="input-group-title">Életkor</p>
+                <div class="input-container">
+                  <input ng-model="mainCtrl.newGuest.age" id="baby" value="baby" name="age" type="radio"><label for="baby">0-6 éves</label>
+                </div>
+                <div class="input-container">
+                  <input ng-model="mainCtrl.newGuest.age" id="child" value="child" name="age" type="radio"><label for="child">6-12 éves</label>
+                </div>
+                <div class="input-container">
+                  <input ng-model="mainCtrl.newGuest.age" id="teen" value="teen" name="age" type="radio"><label for="teen">13-17 éves</label>
+                </div>
+                <div class="input-container">
+                  <input ng-model="mainCtrl.newGuest.age" id="adult" value="adult" name="age" type="radio"><label for="adult">18 év feletti</label>
+                </div>
+              </section>
+              <section class="input-group">
+                <p class="input-group-title">Ételérzékenység</p>
+                <div class="input-container">
+                  <input ng-model="mainCtrl.newGuest.lactose" id="lactose" type="checkbox" name="lactose"><label for="lactose">Laktózérzékenység</label>
+                </div>
+                <div class="input-container">
+                  <input ng-model="mainCtrl.newGuest.gluten" id="gluten" type="checkbox" name="gluten"><label for="gluten">Gluténérzékenység</label>
+                </div>
+                <div class="input-container">
+                  <input ng-model="mainCtrl.newGuest.other_allergy" id="otherallergy" name="other_allergy" placeholder="Egyéb ételérzékenység" type="text">
+                </div>
+              </section>
+              <button class="btn btn-primary" ng-click="mainCtrl.addGuest()">Mentés</button>
+          </form>
+          <pre>user = {{mainCtrl.newGuest | json}}</pre>
+          <p>További meghívók igénylése</p>
+          <textarea placeholder="Írj egy rövid indoklást" ng-model="mainCtrl.requestInvite.text"></textarea>
+          <select ng-model="mainCtrl.requestInvite.amount">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+          <button class="btn btn-primary" ng-click="mainCtrl.requestInvite()">Mentés</button>
+          <section ng-repeat="request in mainCtrl.loginData.requests">
+            <p>{{request.text}}</p>
+            <p>{{request.requested_invites}}</p>
+          </section>
+      </section>
+      <h4>Eddig hozzáadott vendégek</h4>
+      <section class="guest-list">
+          <p class="no-content-text" ng-hide="mainCtrl.loginData.guests">Még nem adtál hozzá vendégeket</p>
+          <article class="guest" ng-repeat="guest in mainCtrl.loginData.guests">
+              <p class="guest-name">{{guest.name}} <span ng-click="mainCtrl.deleteGuest(guest.id)">{{guest.id}} törlés</span></p>
+              <p class="guest-details">{{guest.age | translateAge}}, {{guest.other_allergy}}</p>
+          </article>
+      </section>
+  </section>
+  <section class="whishes-section">
+      <h3>Jókívánságok</h3>
+      <p>Hogyha szeretnétek valamilyen jókívánságot megosztani velünk, már elöljáróban, akkor itt megtehetitek. A hozzáadott jókívánságaitok hamarosan láthatóak lesznek a weboldal kezdőlapján.</p>
+      <h4>Új jókívánság hozzáadása</h4>
+      <section class="new-wish">
+          <form>
+              <textarea ng-model="mainCtrl.newWish.text" placeholder="Jókívánság szövege"></textarea>
+              <input ng-model="mainCtrl.newWish.signature" placeholder="Aláírás" />
+              <button ng-click="mainCtrl.sendWish()" class="btn btn-primary">Mentés</button>
+          </form>
+      </section>
+      <h4>Eddigi jókívánságaid</h4>
+      <section class="wish-list">
+        <p class="no-content-text" ng-hide="mainCtrl.loginData.wishes">Még nem adtál hozzá jókívánságot</p>
+        <p class="wish" ng-repeat="wish in mainCtrl.loginData.wishes" ng-class="{active: wish.accepted}">
+          {{wish.text}} {{wish.signature}}
+        </p>
+      </section>
+  </section>
+  <section class="game-section">
+      <h3>Játék</h3>
+      <p>Segítsetek be egy-két kérdéssel</p>
+      <h4>Új jókívánság hozzáadása</h4>
+      <section class="new-wish">
+          <form>
+              <textarea ng-model="mainCtrl.newQuestion.text" placeholder="Kérdés szövege"></textarea>
+              <button ng-click="mainCtrl.sendQuestion()" class="btn btn-primary">Mentés</button>
+          </form>
+      </section>
+      <h4>Eddig hozzáadott kérdéseid</h4>
+      <section class="wish-list">
+        <p class="no-content-text" ng-hide="mainCtrl.loginData.questions">Még nem adtál hozzá kérdést</p>
+        <p class="question" ng-repeat="question in mainCtrl.loginData.questions">
+          {{question.text}}
+        </p>
+      </section>
+  </section>
+</div>

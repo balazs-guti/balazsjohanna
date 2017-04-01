@@ -39,88 +39,22 @@
             </section>
           </section>
           <section class="section" data-anchor="section2" style="height: {{mainCtrl.windowHeight}}px">
-            <p ng-repeat="wish in mainCtrl.wishesData">{{wish}}</p>
+            <p ng-repeat="wish in mainCtrl.wishesData.data">{{wish.text}} {{wish.signature}}</p>
           </section>
           <!-- <section class="user-panel active"> -->
-          <section class="user-panel" ng-class="{active: mainCtrl.loginData.loggedIn}">
-            <div class="container">
-              <section class="welcome-section">
-                <h2>Sziasztok!</h2>
-                <p>
-                    Köszönjük, hogy megoszthatjuk veletek az örömünket, és velünk ünneplitek, hogy összekötjük az életünket Isten színe előtt! Kérjük ezen a felületen jelezzétek részvételi szándékotokat.
-                </p>
-                <p>
-                    Várjuk a találkozást,<br />
-                    Balázs & Johanna
-                </p>
-              </section>
-              <section class="guests-section">
-                  <h3>Vendégek</h3>
-                  <h4>Új vendég hozzáadása</h4>
-                  <section class="new-guest">
-                      <form>
-                          <section class="input-group">
-                            <div class="input-container">
-                              <p class="input-group-title">Név</p>
-                              <input class="name-input" id="name" placeholder="Vendég neve" type="text">
-                            </div>
-                          </section>
-                          <section class="input-group">
-                            <p class="input-group-title">Életkor</p>
-                            <div class="input-container">
-                              <input id="baby" name="age" type="radio"><label for="baby">0-6 éves</label>
-                            </div>
-                            <div class="input-container">
-                              <input id="child" name="age" type="radio"><label for="child">6-12 éves</label>
-                            </div>
-                            <div class="input-container">
-                              <input id="teen" name="age" type="radio"><label for="teen">13-17 éves</label>
-                            </div>
-                            <div class="input-container">
-                              <input id="adult" name="age" type="radio"><label for="adult">18 év feletti</label>
-                            </div>
-                          </section>
-                          <section class="input-group">
-                            <p class="input-group-title">Ételérzékenység</p>
-                            <div class="input-container">
-                              <input id="lactose" type="checkbox"><label for="lactose">Laktózérzékenység</label>
-                            </div>
-                            <div class="input-container">
-                              <input id="gluten" type="checkbox"><label for="gluten">Gluténérzékenység</label>
-                            </div>
-                            <div class="input-container">
-                              <input id="otherallergy" placeholder="Egyéb ételérzékenység" type="text">
-                            </div>
-                          </section>
-                          <button class="btn btn-primary">Mentés</button>
-                      </form>
-                  </section>
-                  <h4>Eddig hozzáadott vendégek</h4>
-                  <section class="guest-list">
-                      <p class="no-content-text" ng-hide="mainCtrl.loginData.guests">Még nem adtál hozzá vendégeket</p>
-                      <article class="guest" ng-repeat="guest in mainCtrl.loginData.guests">
-                          <p class="guest-name">{{guest.text}}</p>
-                          <p class="guest-details">Felnőtt, Ételérzékenység: nincs</p>
-                      </article>
-                  </section>
-              </section>
-              <section class="whishes-section">
-                  <h3>Jókívánságok</h3>
-                  <p>Hogyha szeretnétek valamilyen jókívánságot megosztani velünk, már elöljáróban, akkor itt megtehetitek. A hozzáadott jókívánságaitok hamarosan láthatóak lesznek a weboldal kezdőlapján.</p>
-                  <h4>Új jókívánság hozzáadása</h4>
-                  <section class="new-wish">
-                      <form>
-                          <textarea name="wish" id="wish" placeholder="Jókívánság szövege"></textarea>
-                          <button class="btn btn-primary">Mentés</button>
-                      </form>
-                  </section>
-                  <h4>Eddigi jókívánságaid</h4>
-                  <section class="wish-list">
-                    <p class="no-content-text" ng-hide="mainCtrl.loginData.wishes">Még nem adtál hozzá jókívánságot</p>
-                    <p ng-repeat="wish in mainCtrl.loginData.wishes">{{wish.text}}</p>
-                  </section>
-              </section>
-            </div>
+          <section
+            class="user-panel"
+            ng-class="{active: mainCtrl.loginData.loggedIn}"
+            ng-include="'userPanel.html'"
+            ng-show="!mainCtrl.loginData.userRights.is_admin"
+          >
+          </section>
+          <section
+            class="control-panel"
+            ng-class="{active: mainCtrl.loginData.loggedIn}"
+            ng-include="'controlPanel.html'"
+            ng-show="mainCtrl.loginData.userRights.is_admin"
+          >
           </section>
           <!-- </div> -->
         </main>
@@ -142,9 +76,13 @@
         <script src="app/angular-fullPage.js"></script>
         <script src="app/index.config.js"></script>
         <script src="app/index.controller.js"></script>
+        <script src="app/index.filters.js"></script>
         <script src="app/index.provider.js"></script>
-        <script src="app/login/getLoginData.service.js"></script>
+        <script src="app/game/game.service.js"></script>
+        <script src="app/guests/guests.service.js"></script>
+        <script src="app/login/adminData.service.js"></script>
         <script src="app/login/login.service.js"></script>
+        <script src="app/login/loginData.service.js"></script>
         <script src="app/wishes/wishes.service.js"></script>
         <!-- endinject -->
         <!-- endbuild -->

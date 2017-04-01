@@ -1,0 +1,146 @@
+<div class="container">
+  <div class="row">
+  <header class="col-xs-12">
+    <h3>Statisztika</h3>
+  </header>
+  <section class="col-xs-12 col-sm-6 col-md-4">
+    <h4>Általános</h4>
+    <p>Összes felhasználó:</p>
+    <p>Összes kiosztott meghívó:</p>
+    <p>Elhasznált meghívók:</p>
+    <p>Eddig nem használt meghívók:</p>
+  </section>
+
+  <section class="col-xs-12 col-sm-6 col-md-4">
+    <h4>Vendégek száma életkoronként</h4>
+    <p>Babák (0-6 évig):</p>
+    <p>Gyerekek (6-12 évig):</p>
+    <p>Fiatalok (12-17 évig):</p>
+    <p>Felnőttek (18 év felett):</p>
+  </section>
+
+  <section class="col-xs-12 col-sm-6 col-md-4">
+    <h4>Vendégek száma ételérzékenységenként</h4>
+    <p>Laktózérzékenyek:</p>
+    <p>Gluténérzékenyek:</p>
+    <p>Egyéb érzékenységgel rendelkezők:</p>
+  </section>
+  </div>
+
+  <nav class="tabs-navigation">
+    <a ng-click="mainCtrl.controlTabState = 'users'" ng-class="{active: mainCtrl.controlTabState === 'users'}">Felhasználók</a>
+    <a ng-click="mainCtrl.controlTabState = 'guests'" ng-class="{active: mainCtrl.controlTabState === 'guests'}">Vendégek</a>
+    <a ng-click="mainCtrl.controlTabState = 'wishes'" ng-class="{active: mainCtrl.controlTabState === 'wishes'}">Jókívánságok</a>
+    <a ng-click="mainCtrl.controlTabState = 'game'" ng-class="{active: mainCtrl.controlTabState === 'game'}">Játék</a>
+  </nav>
+  <section class="users-tab" ng-class="{active: mainCtrl.controlTabState === 'users'}">
+    <div class="row new-user-row">
+      <div class="col-xs-12">
+        <h3>Új felhasználó hozzáadása</h3>
+        <article class="input-container">
+          Felhasználó kódja:
+          <input ng-model="mainCtrl.newUser.code" type="text" />
+        </article>
+        <article class="input-container">
+          Felhasználó neve:
+          <input ng-model="mainCtrl.newUser.name" type="text" />
+        </article>
+        <article class="input-container">
+          Meghívók száma:
+          <input ng-model="mainCtrl.newUser.invites" type="text" class="invite-input" />
+        </article>
+        <button class="btn btn-primary" ng-click="mainCtrl.addUser()">Mentés</button>
+      </div>
+    </div>
+
+    <div class="row">
+      <header class="col-xs-12">
+        <h3>Adatok</h3>
+      </header>
+      <section class="table-container col-xs-12">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Név</th>
+              <th>Kód</th>
+              <th>Meghívók száma</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="user in mainCtrl.loginData.controlPanelData.users">
+              <td>{{user.name}}</td>
+              <td>{{user.code}}</td>
+              <td>
+                {{user.invites}}
+                <figure ng-show="{{user.guests.length}}" class="user-tooltip">
+                  <img src="asset/image/group.png">
+                  <p class="user-tooltip-panel">
+                    <span class="user-tooltip-title">Vendégek</span>
+                    <span class="user-tooltip-element" ng-repeat="guest in user.guests track by $index">{{guest}}</span>
+                  </p>
+                </figure>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    </div>
+  </section>
+  <section class="guests-tab" ng-class="{active: mainCtrl.controlTabState === 'guests'}">
+    <div class="row">
+      <header class="col-xs-12">
+        <h3>Eddig felvitt vendégek</h3>
+      </header>
+      <section class="table-container col-xs-12">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Név</th>
+              <th>Életkor</th>
+              <th>Laktózérzékenység</th>
+              <th>Gluténérzékenység</th>
+              <th>Egyéb érzékenység</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="guest in mainCtrl.loginData.controlPanelData.guests">
+              <td>{{guest.name}}</td>
+              <td>{{guest.age | translateAge}}</td>
+              <td><span ng-show="guest.lactose === 1">x</span></td>
+              <td><span ng-show="guest.gluten === 1">x</span></td>
+              <td>{{guest.other_allergy}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    </div>
+  </section>
+  <section class="wishes-tab" ng-class="{active: mainCtrl.controlTabState === 'wishes'}">
+    <div class="row">
+      <header class="col-xs-12">
+        <h3>Eddig felvitt jókívánságok</h3>
+      </header>
+      <section class="table-container col-xs-12">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Szöveg</th>
+              <th>Aláírás</th>
+              <th>Elfogadva</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="wish in mainCtrl.loginData.controlPanelData.wishes track by $index">
+              <td>{{wish.text}}</td>
+              <td>{{wish.signature}}</td>
+              <td><input type="checkbox" ng-model="wish.accepted" ng-click="mainCtrl.acceptWish(wish.id,wish.accepted)"></td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    </div>
+  </section>
+  <section class="game-tab" ng-class="{active: mainCtrl.controlTabState === 'game'}">
+    game
+  </section>
+</div>
