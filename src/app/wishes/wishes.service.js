@@ -46,6 +46,7 @@
 
             var endObject = response.data.map(function(obj) { 
                var rObj = {};
+               rObj.id = obj.id;
                rObj.text = obj.text;
                rObj.signature = obj.signature;
                return rObj;

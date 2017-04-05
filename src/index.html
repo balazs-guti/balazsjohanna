@@ -26,20 +26,60 @@
         <!-- <main ng-controller="mainController as mainCtrl" class="active"> -->
         <main ng-controller="mainController as mainCtrl" ng-class="{active: mainCtrl.loginData.loggedIn}">
         <!-- <div full-page> -->
-          <section class="head section" data-anchor="section1" style="height: {{mainCtrl.windowHeight}}px">
+          <section class="main-head-section section" data-anchor="section1" style="height: {{mainCtrl.windowHeight}}px">
             <section class="head-container">
               <header>
                 <img src="asset/image/logo.png" class="main-logo" alt="B&J logo">
               </header>
               <section class="head-main">
-                <label for="inviteId">Add meg a meghívódon lévő kódot</label>
-                <input id="inviteId" type="text" placeholder="Kód" ng-model="mainCtrl.loginData.inviteId">
+                <input id="inviteId" type="text" placeholder="Meghívón található kód" ng-model="mainCtrl.loginData.inviteId">
                 <button class="btn btn-primary" ng-click="mainCtrl.login()">Bejelentkezés</button>
               </section>
             </section>
           </section>
-          <section class="section" data-anchor="section2" style="height: {{mainCtrl.windowHeight}}px">
-            <p ng-repeat="wish in mainCtrl.wishesData.data">{{wish.text}} {{wish.signature}}</p>
+          <section class="main-wish-section section" data-anchor="section2">
+            <article class="wish-slide" ng-repeat="wish in mainCtrl.wishesData.data" ng-class="{active: mainCtrl.activeWish === wish.id}">
+                <p class="wish-slide-text">{{wish.text}}</p>
+                <p class="wish-slide-signature">{{wish.signature}}</p>
+            </article>
+          </section>
+          <section class="main-info-section section">
+            <div class="container">
+                <div class="col-xs-12 col-sm-4">
+                  <article class="info-box">
+                  <img src="asset/image/date-icon.png" class="main-info-icon" alt="Date icon">
+                  <h2>Június 24.</h2>
+                  <p>Egyházi esküvő & Istentisztelet</p>
+                  <p>16:00</p>
+                  <p>Esküvői vacsora</p>
+                  <p>18:30</p>
+                  </article>
+                </div> 
+                <div class="col-xs-12 col-sm-4">
+                  <article class="info-box">
+                  <img src="asset/image/location-icon.png" class="main-info-icon" alt="Date icon">
+                    Veresegyház
+                  </article>
+                </div> 
+                <div class="col-xs-12 col-sm-4">
+                  <article class="info-box">
+                  <img src="asset/image/champagne-icon.png" class="main-info-icon" alt="Date icon">
+                  </article>
+                </div> 
+            </div>
+          </section>
+          <section class="main-text-section">
+            <div class="text-section-inner">
+              <p>
+                A weboldallal kapcsolatos kérdésekkel, észrevételekkel keressétek <br />Balázst az alábbi számon: 06 20 775 8738
+              </p>
+              <p>
+                Egyéb kérdéssel kapcsolatosan kérlek hívjátok Őt:<br />
+                06 20 123 4567
+              </p>
+            </div>
+          </section>
+            
           </section>
           <!-- <section class="user-panel active"> -->
           <section

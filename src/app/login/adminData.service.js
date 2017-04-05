@@ -29,6 +29,7 @@
             // loginDetails.userRights = response.data.userRights;
             // loginDetails.wishes = response.data.wishes;
             // loginDetails.guests = response.data.guests;
+            console.log('this ',response.data);
             return response.data;
           } else {
             console.log('login details request failed, invalid code', response);

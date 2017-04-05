@@ -58,16 +58,16 @@
       });
     }
 
-    service.requestInvite = function(text, amount) {
+    service.requestInvite = function(text, requested_invites) {
       var url = 'http://192.168.0.11:8000/requestInvite/' + location.hash.replace('#/','');
-      if (text !== '' && amount !== 0) {
+      if (text !== '' && requested_invites !== 0) {
         $http({
           method: 'POST',
           url: url,
           data: {
             userId: loginService.loginData.id,
             text: text,
-            amount: amount
+            requested_invites: requested_invites
           }
         }).then(function successCallback(response) {
             console.log('invites requested ', response.data);

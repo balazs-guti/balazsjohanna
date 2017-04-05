@@ -86,7 +86,56 @@
         }
       }).then(function successCallback(response) {
           console.log('new user added', response.data);
-          loginService.getLoginData();
+          service.getLoginData();
+      }, function errorCallback(response) {
+        console.log('error',response);
+      });
+    }
+
+    service.deleteUser = function(code) {
+      var url = 'http://192.168.0.11:8000/deleteUser/' + location.hash.replace('#/','');
+      $http({
+        method: 'POST',
+        url: url,
+        data: {
+          code: code
+        }
+      }).then(function successCallback(response) {
+          console.log('user deleted', response.data);
+          service.getLoginData();
+      }, function errorCallback(response) {
+        console.log('error',response);
+      });
+    }
+
+    service.changeUserInvites = function(code, amount) {
+      var url = 'http://192.168.0.11:8000/changeUserInvites/' + location.hash.replace('#/','');
+      $http({
+        method: 'POST',
+        url: url,
+        data: {
+          code: code,
+          amount: amount
+        }
+      }).then(function successCallback(response) {
+          console.log('user deleted', response.data);
+          service.getLoginData();
+      }, function errorCallback(response) {
+        console.log('error',response);
+      });
+    }
+
+    service.answerRequest = function(requestId, answer) {
+      var url = 'http://192.168.0.11:8000/answerRequest/' + location.hash.replace('#/','');
+      $http({
+        method: 'POST',
+        url: url,
+        data: {
+          requestId: requestId,
+          answer: answer
+        }
+      }).then(function successCallback(response) {
+          service.getLoginData();
       }, function errorCallback(response) {
         console.log('error',response);
       });
