@@ -14,6 +14,7 @@
     'ngInject';
 
     var service = this;
+
     service.newGuest = {
       name: '',
       age: '',
@@ -22,12 +23,20 @@
       other_allergy: ''
     };
 
+    function resetNewGuest() {
+      service.newGuest.name = '';
+      service.newGuest.age = '';
+      service.newGuest.lactose = false;
+      service.newGuest.gluten = false;
+      service.newGuest.other_allergy = '';
+    }
+
     $http.defaults.headers.post["Content-Type"] = "application/json";
 
     service.addGuest = function() {
-      var url = 'http://192.168.0.11:8000/addGuest/' + location.hash.replace('#/','');
+      var url = 'http://192.168.0.11:8000/addGuest/' + loginService.loginCredentials.state;
         console.log(service.newGuest);
-        if (loginService.loginData.invites > 0) {
+        if (loginService.loginData.invites.length > 0) {
           $http({
             method: 'POST',
             url: url,
@@ -35,6 +44,7 @@
           }).then(function successCallback(response) {
               console.log('new guest added', response.data);
               loginService.getLoginData();
+              resetNewGuest();
           }, function errorCallback(response) {
             console.log('error',response);
           });
@@ -42,7 +52,7 @@
     }
 
     service.deleteGuest = function(guestId) {
-      var url = 'http://192.168.0.11:8000/deleteGuest/' + location.hash.replace('#/','');
+      var url = 'http://192.168.0.11:8000/deleteGuest/' + loginService.loginCredentials.state;
       $http({
         method: 'POST',
         url: url,
@@ -58,9 +68,25 @@
       });
     }
 
+    service.deleteRequest = function(requestId) {
+      var url = 'http://192.168.0.11:8000/deleteRequest/' + loginService.loginCredentials.state;
+      $http({
+        method: 'POST',
+        url: url,
+        data: {
+          requestId: requestId
+        }
+      }).then(function successCallback(response) {
+          console.log('request deleted', response.data);
+          loginService.getLoginData();
+      }, function errorCallback(response) {
+        console.log('error',response);
+      });
+    }
+
     service.requestInvite = function(text, requested_invites) {
-      var url = 'http://192.168.0.11:8000/requestInvite/' + location.hash.replace('#/','');
-      if (text !== '' && requested_invites !== 0) {
+      var url = 'http://192.168.0.11:8000/requestInvite/' + loginService.loginCredentials.state;
+      if (text !== '' && requested_invites) {
         $http({
           method: 'POST',
           url: url,
@@ -85,7 +111,6 @@
     //  Init
 
     function init() {
-      
     }
 
     // Public Functions

@@ -42,7 +42,6 @@ body {
   }
 
   input {
-    font-family: 'Roboto Slab', serif;
     display: block;
     margin: 0 auto 20px;
     text-align: center;
@@ -237,4 +236,190 @@ body {
   @media (min-width: 1400px) {
     width: 400px;
   }
+}
+
+// PANELS - tab control
+
+section[class*="-tab"] {
+  display: none;
+
+  &.active {
+    display: block;
+  }
+}
+.tabs-navigation {
+  position: relative;
+  margin-bottom: 15px;
+
+  .buttons-container {
+    position: absolute;
+    right: 0;
+    bottom: 12px;
+
+    .btn {
+      display: inline-block;
+      vertical-align: top;
+    }
+
+    .btn-quit {
+      color: $primary;
+      border: 2px solid $primary;
+      background-color: transparent;
+      transition: all 0.4s ease;
+
+      &:hover {
+        background-color: $primary;
+        color: #fff;
+      }
+    }
+  }
+
+  & > a {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    padding: 10px 10px 8px;
+    margin: 20px 15px 10px 0;
+    color: #555;
+    text-decoration: none;
+    transition: color 0.4s ease;
+    font-size: 18px;
+    font-weight: 600;
+
+    &::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      margin-top: 0;
+      width: 100%;
+      height: 2px;
+      background-color: #aaa;
+      transition: bottom 0.25s ease;
+    }
+
+    &:hover {
+      color: #333;
+
+      &::after {
+        background-color: $primary;
+      }
+    }
+
+    &.active {
+      color: #333;
+
+      &::after {
+        background-color: $primary;
+        bottom: -3px;
+      }
+    }
+  }
+}
+
+// radio btns
+
+input[type="radio"] {
+    display:none;
+}
+input[type="radio"] + label {
+    color: #333;
+    font-size:14px;
+    cursor: pointer;
+    margin-bottom: 4px;
+    font-size: 13px;
+}
+input[type="radio"] + label span {
+    display:inline-block;
+    width:19px;
+    height:19px;
+    margin:-1px 4px 0 0;
+    vertical-align:middle;
+    cursor:pointer;
+    -moz-border-radius:  50%;
+    border-radius:  50%;
+}
+
+input[type="radio"] + label span {
+  border: 2px solid #d4d4d4;
+  position: relative;
+}
+
+input[type="radio"] + label span::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%) translateY(-0.5px) scale(0);
+  border-radius: 50%;
+  width: 10px;
+  height: 10px;
+  background-color: $primary;
+  transition: transform 0.4s ease;
+}
+
+input[type="radio"]:checked + label span::after {
+  transform: translateX(-50%) translateY(-50%) translateY(-0.5px) scale(1);
+}
+
+input[type="radio"] + label span,
+input[type="radio"]:checked + label span {
+  -webkit-transition:background-color 0.4s linear;
+  -o-transition:background-color 0.4s linear;
+  -moz-transition:background-color 0.4s linear;
+  transition:background-color 0.4s linear;
+}
+
+// checkboxes
+
+.user-panel {
+
+  /* Base for label styling */
+  [type="checkbox"]:not(:checked),
+  [type="checkbox"]:checked {
+    position: absolute;
+    left: -9999px;
+  }
+  [type="checkbox"]:not(:checked) + label,
+  [type="checkbox"]:checked + label {
+    position: relative;
+    padding-left: 23px;
+    cursor: pointer;
+  }
+
+  /* checkbox aspect */
+  [type="checkbox"]:not(:checked) + label:before,
+  [type="checkbox"]:checked + label:before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0;
+    width: 18px; height: 18px;
+    border: 2px solid #ccc;
+    background: #fff;
+    border-radius: 3px;
+  }
+  /* checked mark aspect */
+  [type="checkbox"]:not(:checked) + label:after,
+  [type="checkbox"]:checked + label:after {
+    content: '';
+    width: 12px;
+    height: 12px;
+    background-image: url('../../asset/image/tick.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    position: absolute;
+    top: 3.5px; left: 3px;
+    color: #09ad7e;
+    transition: all 0.4s;
+  }
+  /* checked mark aspect changes */
+  [type="checkbox"]:not(:checked) + label:after {
+    opacity: 0;
+    transform: scale(0);
+  }
+  [type="checkbox"]:checked + label:after {
+    opacity: 1;
+    transform: scale(1);
+  }
+
 }

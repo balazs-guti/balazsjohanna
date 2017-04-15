@@ -60,7 +60,7 @@
     }
 
     service.sendWish = function() {
-      var url = 'http://192.168.0.11:8000/sendWish/' + loginService.loginData.loggedIn;
+      var url = 'http://192.168.0.11:8000/sendWish/' + loginService.loginCredentials.state;
       $http({
           method: 'POST',
           url: url,
@@ -73,8 +73,24 @@
         });
     }
 
+    service.deleteWish = function(wishId) {
+      var url = 'http://192.168.0.11:8000/deleteWish/' + loginService.loginCredentials.state;
+      $http({
+          method: 'POST',
+          url: url,
+          data: {
+            wishId: wishId
+          }
+        }).then(function successCallback(response) {
+            console.log('wish deleted', response.data)
+            loginService.getLoginData();
+        }, function errorCallback(response) {
+          console.log('error',response);
+        });
+    }
+
     service.acceptWish = function(id,accepted) {
-      var url = 'http://192.168.0.11:8000/acceptWish/' + loginService.loginData.loggedIn;
+      var url = 'http://192.168.0.11:8000/acceptWish/' + loginService.loginCredentials.state;
       var data = {
         id: id,
         accepted: accepted

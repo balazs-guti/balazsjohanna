@@ -17,7 +17,7 @@
     $http.defaults.headers.post["Content-Type"] = "application/json";
 
     service.sendQuestion = function(text) {
-      var url = 'http://192.168.0.11:8000/sendQuestion/' + location.hash.replace('#/','');
+      var url = 'http://192.168.0.11:8000/sendQuestion/' + loginService.loginCredentials.state;
       if (text !== '') {
         $http({
           method: 'POST',
@@ -32,6 +32,22 @@
           console.log('error',response);
         });
       }
+    }
+
+    service.deleteQuestion = function(questionId) {
+      var url = 'http://192.168.0.11:8000/deleteQuestion/' + loginService.loginCredentials.state;
+      $http({
+        method: 'POST',
+        url: url,
+        data: {
+          questionId: questionId
+        }
+      }).then(function successCallback(response) {
+          console.log('question deleted ', response.data);
+          loginService.getLoginData();
+      }, function errorCallback(response) {
+        console.log('error',response);
+      });
     }
 
     // $timeout(function(){

@@ -16,9 +16,9 @@
     }
 
     // Public Functions
-    service.getAdminData = function() {
+    service.getAdminData = function(loginCredentialsState) {
       var loginDetails = {};
-      var url = 'http://192.168.0.11:8000/admin' + location.hash.replace('#','');
+      var url = 'http://192.168.0.11:8000/admin/' + loginCredentialsState;
       return $http({
         method: 'GET',
         url: url

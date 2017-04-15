@@ -15,6 +15,7 @@
 
     var ctrl = this;
 
+    ctrl.loginCredentials = loginService.loginCredentials;
     ctrl.loginData = loginService.loginData;
     ctrl.wishesData = wishesService.wishesData;
     ctrl.newGuest = guestsService.newGuest;
@@ -34,32 +35,25 @@
       ctrl.activeWish = wishesService.wishesData.data[ctrl.activeWishIndex].id;
     },4500);
 
-
     ctrl.newUser = {
       code: '',
       name: '',
       invites: 0
     }
 
-    ctrl.requestInvite = {
-      text: '',
-      amount: 0
+    ctrl.requestInviteData = {
+      text: ''
     }
 
     ctrl.newQuestion = {
-      text: 'dsa'
+      text: ''
     }
 
     ctrl.windowHeight = window.innerHeight;
     ctrl.controlTabState = 'users';
+    ctrl.userTabState = 'guests';
 
     ctrl.newWish = wishesService.newWish;
-
-    // ctrl.mainOptions = {
-    //   sectionsColor: ['#1bbc9b', '#4BBFC3', '#7BAABE', 'whitesmoke', '#ccddff'],
-    //   anchors: ['firstPage', 'secondPage', '3rdPage', '4thpage', 'lastPage'],
-    //   menu: '#menu'
-    // };
 
     //  Init
 
@@ -93,6 +87,14 @@
       loginService.answerRequest(requestId, answer);
     }
 
+    ctrl.quit = function() {
+      loginService.quit();
+    }
+
+    ctrl.answerComing = function(answer) {
+      loginService.answerComing(answer);
+    }
+
 
     // manage guests
 
@@ -105,7 +107,11 @@
     }
 
     ctrl.requestInvite = function() {
-      guestsService.requestInvite(ctrl.requestInvite.text, ctrl.requestInvite.amount);
+      guestsService.requestInvite(ctrl.requestInviteData.text, ctrl.requestInviteData.amount);
+    }
+
+    ctrl.deleteRequest = function(requestId) {
+      guestsService.deleteRequest(requestId);
     }
 
     // manage wishes
@@ -118,8 +124,18 @@
       wishesService.acceptWish(id, accepted);
     }
 
+    ctrl.deleteWish = function(wishId) {
+      wishesService.deleteWish(wishId);
+    }
+
+    // manage game (questions)
+
     ctrl.sendQuestion = function() {
       gameService.sendQuestion(ctrl.newQuestion.text);
+    }
+
+    ctrl.deleteQuestion = function(questionId) {
+      gameService.deleteQuestion(questionId);
     }
 
 
