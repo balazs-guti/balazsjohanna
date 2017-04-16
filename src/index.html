@@ -31,7 +31,12 @@
                 <img src="asset/image/logo.png" class="main-logo" alt="B&J logo">
               </header>
               <section class="head-main">
-                <input id="inviteId" type="text" placeholder="Meghívón található kód" ng-model="mainCtrl.loginCredentials.inputValue">
+                <p class="status-text">
+                  <span class="error" ng-class="{active: mainCtrl.loginData.loggingState === 'error'}">Helytelen kód</span>
+                  <span class="logging" ng-class="{active: mainCtrl.loginData.loggingState === 'logging'}">Kód azonosítása folyamatban</span>
+                  <span class="success" ng-class="{active: mainCtrl.loginData.loggingState === 'success'}">Kód elfogadva</span>
+                </p>
+                <input id="inviteId" type="text" placeholder="Meghívó kódja" ng-model="mainCtrl.loginCredentials.inputValue" />
                 <button class="btn btn-primary" ng-click="mainCtrl.login()">Bejelentkezés</button>
               </section>
             </section>
@@ -80,7 +85,13 @@
           </section>
             
           <!-- <section class="user-panel active"> -->
-          <div class="panel-outer" ng-class="{active: mainCtrl.loginCredentials.state}"> 
+          <div
+            class="panel-outer"
+            ng-class="{
+              active: mainCtrl.loginCredentials.state,
+              bullshit: mainCtrl.loginCredentials.bullshit
+            }"
+          > 
             <section
               class="user-panel"
               ng-class="{active: mainCtrl.loginCredentials.state}"

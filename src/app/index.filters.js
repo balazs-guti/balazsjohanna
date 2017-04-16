@@ -14,10 +14,10 @@
     return function(input) {
       switch (input) {
         case 'baby':
-          return 'baba';
+          return 'kisgyermek';
           break;
         case 'child':
-          return 'gyerek';
+          return 'gyermek';
           break;
         case 'teen':
           return 'fiatal';

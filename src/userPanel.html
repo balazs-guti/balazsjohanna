@@ -23,8 +23,8 @@
     <a ng-click="mainCtrl.userTabState = 'wishes'" ng-class="{active: mainCtrl.userTabState === 'wishes'}">Jókívánságok</a>
     <a ng-click="mainCtrl.userTabState = 'game'" ng-class="{active: mainCtrl.userTabState === 'game'}">Játék</a>
     <section class="buttons-container">
-      <figure class="toggle-coming">
-        <div class="toggle" ng-class="{on: mainCtrl.loginData.coming}"></div>
+      <figure class="toggle-coming" ng-class="{on: mainCtrl.loginData.coming}">
+        <div class="toggle"></div>
         <span class="coming" ng-click="mainCtrl.answerComing(true)">Jövök</span>
         <span class="not-coming" ng-click="mainCtrl.answerComing(false)">Nem jövök</span>
       </figure>
@@ -51,16 +51,16 @@
             <section class="input-group">
               <p class="input-group-title">Életkor</p>
               <div class="input-container">
-                <input ng-model="mainCtrl.newGuest.age" id="baby" value="baby" name="age" type="radio"><label for="baby"><span></span>0-6 éves</label>
+                <input ng-model="mainCtrl.newGuest.age" id="baby" value="baby" name="age" type="radio"><label for="baby"><span></span>Kisgyermek (0-6 éves)</label>
               </div>
               <div class="input-container">
-                <input ng-model="mainCtrl.newGuest.age" id="child" value="child" name="age" type="radio"><label for="child"><span></span>6-12 éves</label>
+                <input ng-model="mainCtrl.newGuest.age" id="child" value="child" name="age" type="radio"><label for="child"><span></span>Gyermek (6-12 éves)</label>
               </div>
               <div class="input-container">
-                <input ng-model="mainCtrl.newGuest.age" id="teen" value="teen" name="age" type="radio"><label for="teen"><span></span>13-17 éves</label>
+                <input ng-model="mainCtrl.newGuest.age" id="teen" value="teen" name="age" type="radio"><label for="teen"><span></span>Fiatal (13-17 éves)</label>
               </div>
               <div class="input-container">
-                <input ng-model="mainCtrl.newGuest.age" id="adult" value="adult" name="age" type="radio"><label for="adult"><span></span>18 év feletti</label>
+                <input ng-model="mainCtrl.newGuest.age" id="adult" value="adult" name="age" type="radio"><label for="adult"><span></span>Felnőtt (18 év feletti)</label>
               </div>
             </section>
             <section class="input-group">
@@ -80,12 +80,17 @@
         </section>
         <section class="guest-list-outer">
           <section class="guest-list">
-          <header class="guest-list-header">Összesen <b>{{mainCtrl.loginData.data.guests.length + mainCtrl.loginData.invites.length}}</b> vendéget tudsz hozzáadni</header>
+          <header class="guest-list-header">
+            <h2>Vendéglista</h2>
+            <p class="list-description">Összesen <b>{{mainCtrl.loginData.data.guests.length + mainCtrl.loginData.invites.length}}</b> vendéget tudsz hozzáadni</p>
+          </header>
               <p class="no-content-text" ng-hide="mainCtrl.loginData.data.guests">Nem adható hozzá vendég</p>
               <article class="guest" ng-repeat="guest in mainCtrl.loginData.data.guests">
                   <img class="guest-icon" src="asset/image/guest.png" alt="Guest icon">
                   <p class="guest-name">{{guest.name}}</p><figure class="guest-delete" ng-click="mainCtrl.deleteGuest(guest.id)"></figure>
-                  <p class="guest-details">{{guest.age | translateAge}}, {{guest.other_allergy}}</p>
+                  <p class="guest-details">
+                    <span ng-class="{visible: guest.age}">{{guest.age | translateAge}}</span><span ng-class="{visible: guest.lactose}">laktózérzékeny</span><span ng-class="{visible: guest.gluten}">gluténérzékeny</span><span ng-class="{visible: guest.other_allergy}">{{guest.other_allergy}}</span>
+                  </p>
               </article>
               <article class="missing-guest" ng-class="" ng-repeat="i in mainCtrl.loginData.invites track by $index">
                 <span class="missing-guest-placeholder" ng-show="($index === 0 && mainCtrl.newGuest.name === '') || ($index > 0)">{{$index + mainCtrl.loginData.data.guests.length + 1}}. vendég</span>
@@ -120,6 +125,7 @@
         </section>
         <p class="subsection-title">Eddigi igényléseid</p>
         <section class="request-list">
+        <p class="no-content-text" ng-show="mainCtrl.loginData.data.wishes.length === 0">Még nem adtál le meghívó igénylést</p>
           <article class="request" ng-repeat="request in mainCtrl.loginData.data.requests">
             <p class="request-accepted" ng-show="request.accepted === 1">Elfogadva</p>
             <p class="request-refused" ng-show="request.accepted === 0">Elutasítva</p>
@@ -147,7 +153,7 @@
         Eddig elküldött jókívánságaitok
       </p>
       <section class="wish-list">
-        <p class="no-content-text" ng-hide="mainCtrl.loginData.data.wishes">Még nem adtál hozzá jókívánságot</p>
+        <p class="no-content-text" ng-show="mainCtrl.loginData.data.wishes.length === 0">Még nem adtál hozzá jókívánságot</p>
         <article class="wish" ng-repeat="wish in mainCtrl.loginData.data.wishes">
           <p class="wish-live" ng-class="{active: wish.accepted}">Kezdőlapon is látható</p>
           <p class="wish-list-text">{{wish.text}}</p>
@@ -172,7 +178,7 @@
         Eddig elküldött kérdéseitek
       </p>
       <section class="wish-list">
-        <article class="no-content-text" ng-hide="mainCtrl.loginData.data.questions">Még nem adtál hozzá kérdést</article>
+        <article class="no-content-text" ng-show="mainCtrl.loginData.data.questions.length === 0">Még nem adtál hozzá kérdést</article>
         <article class="question" ng-repeat="question in mainCtrl.loginData.data.questions">
           {{question.text}}
         <figure class="entry-delete" ng-click="mainCtrl.deleteQuestion(question.id)"></figure>

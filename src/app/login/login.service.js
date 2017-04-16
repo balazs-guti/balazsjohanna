@@ -21,7 +21,8 @@
     }
 
     service.loginData = {
-      data: {}
+      data: {},
+      loggingState: 'default'
     };
 
     //  Init
@@ -30,8 +31,18 @@
       // service.getLoginData(); // ezt töröld
     }
 
+    function setLoggingState(state) {
+      service.loginData.loggingState = state;
+      $timeout.cancel(service.loggingTimeout);
+      service.loggingTimeout = $timeout(function() {
+        service.loginData.loggingState = 'default'
+      },2000);
+    }
+
     // Public Functions
     service.getLoginData = function() {
+      setLoggingState('logging');
+
       var url = service.loginCredentials.state ?
         'http://192.168.0.11:8000/user/' + service.loginCredentials.state :
         'http://192.168.0.11:8000/user/' + service.loginCredentials.inputValue;
@@ -45,6 +56,9 @@
             if (service.loginCredentials.inputValue !== '') {
               service.loginCredentials.state = service.loginCredentials.inputValue;
               service.loginCredentials.inputValue = '';
+              $timeout(function() {
+                service.loginCredentials.bullshit = true;
+              },1650);
             }
             loginDataService.getLoginData(service.loginCredentials.state).then(function(value){
                 console.log('from promise: ',value);
@@ -69,9 +83,11 @@
             console.log(service.loginData.invites);
             console.log('code is valid', response.data);
             console.log('loginData: ',service.loginData);
+            setLoggingState('success');
           }
           else {
             console.log('invalid code', response);
+            setLoggingState('error');
           }
         }, function errorCallback(response) {
           console.log('error',response);
@@ -162,6 +178,7 @@
 
     service.quit = function() {
       service.loginCredentials.state = '';
+      service.loginCredentials.bullshit = false;
     }
 
 

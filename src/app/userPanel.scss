@@ -38,15 +38,19 @@ body > main {
   width: 100%;
   height: 100%;
   background-color: rgba(0,0,0,0.4);
-  overflow: auto;
+  overflow-y: hidden;
   // display: none;
   opacity: 0;
   transition: opacity 0.5s ease 0.5s;
   z-index: -1;
+  padding-right: 15px;
   &.active {
     // display: block;
     opacity: 1;
     z-index: 3;
+  }
+  &.bullshit {
+    overflow-y: scroll;
   }
 }
 
@@ -55,12 +59,12 @@ body > main {
   position: absolute;
   top: 40px;
   margin-bottom: 40px;
-  left: 50%;
+  left: calc(50% - 9px);
   width: calc(100% - 20px);
   padding: 30px 10px;
   background-color: #fff;
   transform: translateX(-50%) scale(0);
-  transition: transform 0.5s ease 1s;
+  transition: transform 0.5s ease 0.5s;
 
   @media (min-width: 768px) {
     padding: 30px;
@@ -124,6 +128,12 @@ body > main {
   input[type="text"] {
     height: 30px;
     padding: 0 5px;
+  }
+}
+
+.bullshit {
+  .user-panel {
+    left: 50%;
   }
 }
 
@@ -299,6 +309,36 @@ body > main {
   color: #c3c3c3;
   margin-bottom: 15px;
   margin-top: 5px;
+
+  .list-icon {
+    width: 100px;
+    margin: 0 auto 15px;
+    display: block;
+  }
+
+  .list-description {
+    margin-bottom: 25px;
+  }
+
+  h2 {
+    position: relative;
+    margin: 20px 0;
+    text-align: center;
+    padding-bottom: 20px;
+    color: #333;
+
+    &::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      bottom: 0;
+      width: 100%;
+      max-width: 100px;
+      transform: translateX(-50%);
+      height: 2px;
+      background-color: #ddd;
+    }
+  }
 }
 
 .new-guest {
@@ -307,7 +347,7 @@ body > main {
 
   .input-group {
     width: 100%;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
   }
 
   .input-group-title {
@@ -316,10 +356,11 @@ body > main {
 
   input[type="text"] {
     width: 100%;
+    border-radius: 3px;
   }
 
   .add-guest-icon {
-    width: 100px;
+    width: 75px;
     margin: 0 auto 15px;
     display: block;
   }
@@ -354,11 +395,12 @@ body > main {
   // border: 2px solid #aaa;
   border-radius: 5px;
   padding: 15px;
+}
 
-  .no-content-text {
-    color: #aaa;
-    margin: 0;
-  }
+.no-content-text {
+  color: #aaa;
+  margin: 0;
+  text-align: center;
 }
 
 .guest-list {
@@ -432,20 +474,23 @@ body > main {
       margin: 0;
       font-size: 12px;
       color: #989898;
-
-      & > span {
-        display: none;
-      }
-
-      & > span.visible {
-        display: inline-block;
-      }
-
-      & > span.visible ~ span.visible::before {
-        content: ", ";
-        display: inline;
-      }
     }
+  }
+}
+
+.guest-details,
+.missing-guest-details {
+  & > span {
+    display: none;
+  }
+
+  & > span.visible {
+    display: inline-block;
+  }
+
+  & > span.visible ~ span.visible::before {
+    content: ", ";
+    display: inline;
   }
 }
 
@@ -576,10 +621,9 @@ body > main {
   display: inline-block;
   width: 200px;
   height: 35px;
-  background-color: #efefef;
   font-size: 0;
-  overflow: hidden;
   border-radius: 5px;
+  border: 2px solid #c56868;
 
   .coming,
   .not-coming {
@@ -588,19 +632,23 @@ body > main {
     width: 50%;
     height: 100%;
     text-align: center;
-    color: #123;
     z-index: 2;
-    font-size: 14px;
-    line-height: 35px;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 31px;
     cursor: pointer;
+    text-transform: uppercase;
+    transition: color 0.4s ease;
   }
 
   .coming {
     left: 0;
+    color: #bbb;
   }
 
   .not-coming {
     right: 0;
+    color: darken(#c56868,35%);
   }
 
   .toggle {
@@ -608,14 +656,24 @@ body > main {
     left: 0;
     width: 50%;
     height: 100%;
-    transform: translateX(100%);
+    transform: translateX(100%) translateX(1px);
     transition: all 0.4s ease;
-    color: darken(#c56868,25%);
     background-color: #c56868;
+  }
 
-    &.on {
-      transform: translateX(0);
+  &.on {
+    border-color: $primary;
+    .toggle {
+      transform: translateX(0) translateX(-1px);
       background-color: $primary;
+    }
+
+    .coming {
+      color: darken($primary,35%);
+    }
+
+    .not-coming {
+      color: #bbb;
     }
   }
 }
