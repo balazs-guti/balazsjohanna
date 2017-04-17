@@ -10,11 +10,19 @@
     .module('balazsjohanna')
     .service('gameService', gameService);
 
-  function gameService($http, $timeout, loginService) {
+  function gameService($http, $timeout, loginService, messageBox) {
     'ngInject';
 
     var service = this;
     $http.defaults.headers.post["Content-Type"] = "application/json";
+
+    service.newQuestion = {
+      text: ''
+    }
+
+    function resetNewQuestion() {
+      service.newQuestion.text = '';
+    }
 
     service.sendQuestion = function(text) {
       var url = 'http://192.168.0.11:8000/sendQuestion/' + loginService.loginCredentials.state;
@@ -26,6 +34,8 @@
             text: text
           }
         }).then(function successCallback(response) {
+            messageBox.openMessageBox('Kérdés sikeresen mentve','success');
+            resetNewQuestion();
             console.log('question sent ', response.data);
             loginService.getLoginData();
         }, function errorCallback(response) {

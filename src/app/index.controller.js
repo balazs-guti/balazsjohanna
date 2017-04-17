@@ -10,7 +10,7 @@
     .module('balazsjohanna')
     .controller('mainController', mainController);
 
-  function mainController(loginService, wishesService, guestsService, gameService, $timeout, $interval) {
+  function mainController(loginService, wishesService, guestsService, gameService, messageBox, $timeout, $interval) {
     'ngInject';
 
     var ctrl = this;
@@ -41,19 +41,22 @@
       invites: 0
     }
 
-    ctrl.requestInviteData = {
-      text: ''
-    }
-
-    ctrl.newQuestion = {
-      text: ''
-    }
+    ctrl.requestInviteData = guestsService.requestInviteData;
+    ctrl.newQuestion = gameService.newQuestion;
 
     ctrl.windowHeight = window.innerHeight;
     ctrl.controlTabState = 'users';
     ctrl.userTabState = 'guests';
 
     ctrl.newWish = wishesService.newWish;
+
+    // messagebox
+
+    ctrl.messageBox = messageBox.messageBox;
+
+    ctrl.openMessageBox = function(text,type) {
+      messageBox.openMessageBox(text,type);
+    }
 
     //  Init
 
@@ -65,6 +68,12 @@
 
     ctrl.login = function() {
       loginService.getLoginData();
+    }
+
+    ctrl.executeIfEnter = function(event,executableFunction) {
+      if (event.keyCode === 13) {
+        executableFunction();
+      }
     }
 
     ctrl.addUser = function() {
@@ -99,7 +108,13 @@
     // manage guests
 
     ctrl.addGuest = function() {
-      guestsService.addGuest();
+      if (guestsService.newGuest.name !== '' && guestsService.newGuest.age !== '') {
+        guestsService.addGuest();
+      } else if (guestsService.newGuest.name === '') {
+        messageBox.openMessageBox('Adj meg nevet a vendégnek!','error');
+      } else if (guestsService.newGuest.age === '') {
+        messageBox.openMessageBox('Add meg a vendég életkorát!','error');
+      }
     }
 
     ctrl.deleteGuest = function(guestId) {
@@ -107,7 +122,13 @@
     }
 
     ctrl.requestInvite = function() {
-      guestsService.requestInvite(ctrl.requestInviteData.text, ctrl.requestInviteData.amount);
+      if (ctrl.requestInviteData.text !== '' && ctrl.requestInviteData.amount !== '' && ctrl.requestInviteData.amount !== 0) {
+        guestsService.requestInvite(ctrl.requestInviteData.text, ctrl.requestInviteData.amount);
+      } else if (ctrl.requestInviteData.text === '') {
+        messageBox.openMessageBox('Adj meg indoklást az igényléshez!','error');
+      } else if (ctrl.requestInviteData.amount === '' || ctrl.requestInviteData.amount === 0) {
+        messageBox.openMessageBox('Állítsd be, hogy hány meghívót szeretnél igényelni!','error');
+      }
     }
 
     ctrl.deleteRequest = function(requestId) {
@@ -117,7 +138,13 @@
     // manage wishes
 
     ctrl.sendWish = function() {
-      wishesService.sendWish();
+      if (ctrl.newWish.text !== '' && ctrl.newWish.signature !== '') {
+        wishesService.sendWish();
+      } else if (ctrl.newWish.text === '') {
+        messageBox.openMessageBox('Adj meg szöveget a jókívánsághoz!','error');
+      } else if (ctrl.newWish.signature === '') {
+        messageBox.openMessageBox('Adj meg aláírást a jókívánsághoz!','error');
+      }
     }
 
     ctrl.acceptWish = function(id, accepted) {
@@ -131,7 +158,12 @@
     // manage game (questions)
 
     ctrl.sendQuestion = function() {
-      gameService.sendQuestion(ctrl.newQuestion.text);
+      if (ctrl.newQuestion.text !== '') {
+        gameService.sendQuestion(ctrl.newQuestion.text);
+      } else {
+        messageBox.openMessageBox('Adj meg szöveget a kérdéshez!','error');
+      }
+
     }
 
     ctrl.deleteQuestion = function(questionId) {

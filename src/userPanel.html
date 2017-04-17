@@ -41,6 +41,12 @@
       <section class="adding-guests">
         <section class="new-guest-outer">
             <section class="new-guest">
+              <article class="new-guest-overlap" ng-show="mainCtrl.loginData.invites.length === 0">
+                <div class="new-guest-overlap-inner">
+                  <h3>Köszönjük!</h3>
+                  <p>Várunk titeket sok szeretettel az esküvőre. Hogyha szükségetek van további meghívókra, akkor alább jelezzétek bátran.</p>
+                </div>
+              </article>
             <section class="input-group">
               <div class="input-container">
                 <img src="asset/image/add-guest.png" class="add-guest-icon" alt="Adding guests icon">
@@ -121,11 +127,11 @@
             <option value="5">5</option>
           </select>
         </div>
-        <button class="btn btn-primary" ng-click="mainCtrl.requestInvite()">Elküld</button>
+        <button class="btn btn-primary" ng-click="mainCtrl.requestInvite()">Mentés</button>
         </section>
         <p class="subsection-title">Eddigi igényléseid</p>
         <section class="request-list">
-        <p class="no-content-text" ng-show="mainCtrl.loginData.data.wishes.length === 0">Még nem adtál le meghívó igénylést</p>
+        <p class="no-content-text" ng-show="mainCtrl.loginData.data.requests.length === 0">Még nem adtál le meghívó igénylést</p>
           <article class="request" ng-repeat="request in mainCtrl.loginData.data.requests">
             <p class="request-accepted" ng-show="request.accepted === 1">Elfogadva</p>
             <p class="request-refused" ng-show="request.accepted === 0">Elutasítva</p>
@@ -146,7 +152,7 @@
           <form>
               <textarea ng-model="mainCtrl.newWish.text" placeholder="Jókívánság szövege"></textarea>
               <input type="text" ng-model="mainCtrl.newWish.signature" placeholder="Aláírás" />
-              <button ng-click="mainCtrl.sendWish()" class="btn btn-primary">Elküld</button>
+              <button ng-click="mainCtrl.sendWish()" class="btn btn-primary">Mentés</button>
           </form>
       </section>
       <p class="subsection-title">

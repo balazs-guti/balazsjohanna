@@ -1,5 +1,22 @@
 .control-panel {
 
+  .table-container {
+    .btn-primary {
+      padding: 6px 15px;
+      display: inline-block;
+    }
+
+    tr.inactive {
+      td {
+        opacity: 0.2;
+      }
+
+      td:first-child {
+        opacity: 1;
+      }
+    }
+  }
+
   .row {
     margin-bottom: 45px;
   }

@@ -10,7 +10,7 @@
     .module('balazsjohanna')
     .service('wishesService', wishesService);
 
-  function wishesService($http, $timeout, loginService) {
+  function wishesService($http, $timeout, loginService, messageBox) {
     'ngInject';
 
     var service = this;
@@ -20,6 +20,11 @@
     service.newWish = {
       text: '',
       signature: ''
+    }
+
+    function resetNewWish() {
+      service.newWish.text = '';
+      service.newWish.signature = '';
     }
 
     // $timeout(function(){
@@ -66,6 +71,8 @@
           url: url,
           data: service.newWish
         }).then(function successCallback(response) {
+            resetNewWish();
+            messageBox.openMessageBox('Jókívánság sikeresen mentve','success');
             console.log('wish sent', response.data)
             loginService.getLoginData();
         }, function errorCallback(response) {

@@ -4,15 +4,63 @@ body {
   background-color: #fbfbfb;
 }
 
+.btn,
+.btn:focus {
+  outline: none !important;
+  box-shadow: none;
+}
+
+.btn-primary {
+  transition: all 0.4s ease;
+}
+
+.btn-primary:active,
+.btn-primary:focus {
+  background-color: $primary !important;
+}
+
+.btn-primary:hover {
+  background-color: darken($primary,15%) !important;
+}
+
 .main-head-section {
   color: #fff;
   position: relative;
   background-image: url('../asset/image/bg.jpg');
   background-size: cover;
+  background-position: center;
   text-align: center;
   height: 100vh;
   min-height: 700px;
   overflow: hidden;
+
+  .main-head-video {
+    position: absolute;
+    // width: auto;
+    height: auto;
+    width: 100%;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    opacity: 1;
+    transition: opacity 1s ease;
+
+    &.hidevideo {
+      opacity: 0;
+      transition: opacity 1s ease 1s;
+    }
+  }
+
+  &::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: #333;
+    left: 0;
+    opacity: 0;
+    transition: opacity 1s ease 1s;
+  }
 
   &::after {
     background-color: $secondary;
@@ -28,6 +76,7 @@ body {
     top: calc(50% - 90px);
     width: 100%;
     margin: 20px 0;
+    z-index: 1;
 
     @media (min-width: 1400px) {
       top: calc(50% - 120px);
@@ -35,10 +84,12 @@ body {
   }
 
   .head-main {
-    position: relative;
+    position: absolute;
+    left: 50%;
     width: 100%;
     max-width: 200px;
     margin: 0 auto;
+    transform: translateX(-50%);
 
     .status-text {
       position: absolute;
@@ -90,6 +141,7 @@ body {
   }
 
   input {
+    position: relative;
     display: block;
     margin: 0 auto 20px;
     border: none;
@@ -102,6 +154,7 @@ body {
     padding: 0 10px;
     outline: none;
     color: #fff;
+    z-index: 1;
 
     @media (min-width: 1400px) {
       height: 50px;
@@ -113,7 +166,7 @@ body {
     background-color: transparent;
     border: 2px solid $primary;
     font-size: 16px;
-    padding: 7px 18px;
+    padding: 8px 20px;
     transition: all 0.35s ease;
     transform: scale(1);
     outline: none;
@@ -131,6 +184,11 @@ body {
     }
   }
 }
+
+.active .main-head-section::before {
+  opacity: 1;
+}
+
 
 .main-wish-section {
   position: relative;
@@ -470,5 +528,31 @@ input[type="radio"]:checked + label span {
     opacity: 1;
     transform: scale(1);
   }
+}
 
+.messageBox {
+  position: fixed;
+  padding: 25px;
+  bottom: -100px;
+  right: 35px;
+  transform: translateY(0);
+  transition: all 0.4s ease;
+  z-index: 1000;
+  color: #fff;
+
+  & > p {
+    margin: 0;
+  }
+
+  &.active {
+    transform: translateY(-120px);
+  }
+
+  &.error {
+    background-color: darken(#c56868,10%);
+  }
+
+  &.success {
+    background-color: darken($primary,10%);
+  }
 }

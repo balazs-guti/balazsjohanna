@@ -10,7 +10,7 @@
     .module('balazsjohanna')
     .service('guestsService', guestsService);
 
-  function guestsService($http, $timeout, loginService) {
+  function guestsService($http, $timeout, loginService, messageBox) {
     'ngInject';
 
     var service = this;
@@ -23,12 +23,22 @@
       other_allergy: ''
     };
 
+    service.requestInviteData = {
+      text: ''
+      // amount is unset to force it to be 0
+    }
+
     function resetNewGuest() {
       service.newGuest.name = '';
       service.newGuest.age = '';
       service.newGuest.lactose = false;
       service.newGuest.gluten = false;
       service.newGuest.other_allergy = '';
+    }
+
+    function resetRequestInviteData() {
+      service.requestInviteData.text = '';
+      service.requestInviteData.amount = '';
     }
 
     $http.defaults.headers.post["Content-Type"] = "application/json";
@@ -42,6 +52,7 @@
             url: url,
             data: service.newGuest
           }).then(function successCallback(response) {
+              messageBox.openMessageBox('Vendég sikeresen mentve a vendéglistában','success');
               console.log('new guest added', response.data);
               loginService.getLoginData();
               resetNewGuest();
@@ -96,6 +107,8 @@
             requested_invites: requested_invites
           }
         }).then(function successCallback(response) {
+            messageBox.openMessageBox('Meghívó igénylés sikeresen mentve','success');
+            resetRequestInviteData();
             console.log('invites requested ', response.data);
             loginService.getLoginData();
         }, function errorCallback(response) {

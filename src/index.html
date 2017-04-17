@@ -36,10 +36,26 @@
                   <span class="logging" ng-class="{active: mainCtrl.loginData.loggingState === 'logging'}">Kód azonosítása folyamatban</span>
                   <span class="success" ng-class="{active: mainCtrl.loginData.loggingState === 'success'}">Kód elfogadva</span>
                 </p>
-                <input id="inviteId" type="text" placeholder="Meghívó kódja" ng-model="mainCtrl.loginCredentials.inputValue" />
+                <input
+                  id="inviteId"
+                  type="text"
+                  placeholder="Meghívó kódja"
+                  ng-model="mainCtrl.loginCredentials.inputValue"
+                  ng-keypress="mainCtrl.executeIfEnter($event,mainCtrl.login)"
+                />
                 <button class="btn btn-primary" ng-click="mainCtrl.login()">Bejelentkezés</button>
               </section>
             </section>
+            <video
+              class="main-head-video" 
+              ng-class="{
+                  hidevideo: mainCtrl.loginCredentials.state
+                }" autoplay loop muted
+              >
+              <source src="asset/bg-video.mp4" type="video/mp4">
+              <source src="asset/bg-video.webm" type="video/webm">
+            Your browser does not support the video tag.
+            </video>
           </section>
           <section class="main-wish-section" data-anchor="section2">
             <article class="wish-slide" ng-repeat="wish in mainCtrl.wishesData.data" ng-class="{active: mainCtrl.activeWish === wish.id}">
@@ -62,12 +78,17 @@
                 <div class="col-xs-12 col-sm-4">
                   <article class="info-box">
                   <img src="asset/image/location-icon.png" class="main-info-icon" alt="Date icon">
-                    Veresegyház
+                    <h2>Veresegyház</h2>
+                    <p>Hajnal utca 2/a</p>
+                    <h2>Vácrátót</h2>
+                    <p>Fő út 102.</p>
                   </article>
                 </div> 
                 <div class="col-xs-12 col-sm-4">
                   <article class="info-box">
                   <img src="asset/image/champagne-icon.png" class="main-info-icon" alt="Date icon">
+                    <h2>Köszöntések</h2>
+                    <p>Hogyha szeretnétek a ceremónia keretein belül valamilyen köszöntéssel készülni a számunkra, akkor kérlek keressétek Guti Sanyit, az alábbi telefonszámon: 06 20 885 0555</p>
                   </article>
                 </div> 
             </div>
@@ -94,19 +115,34 @@
           > 
             <section
               class="user-panel"
-              ng-class="{active: mainCtrl.loginCredentials.state}"
+              ng-class="{
+                active: mainCtrl.loginCredentials.state,
+                welcome: mainCtrl.loginData.coming !== 0 && mainCtrl.loginData.coming !== 1
+              }"
               ng-include="'userPanel.html'"
               ng-show="!mainCtrl.loginData.data.userRights.is_admin"
             >
             </section>
             <section
               class="control-panel"
-              ng-class="{active: mainCtrl.loginCredentials.state}"
+              ng-class="{
+                active: mainCtrl.loginCredentials.state
+              }"
               ng-include="'controlPanel.html'"
               ng-show="mainCtrl.loginData.data.userRights.is_admin"
             >
             </section>
           </div>
+          <section
+            class="messageBox"
+            ng-class="{
+              active: mainCtrl.messageBox.active,
+              success: mainCtrl.messageBox.type === 'success',
+              error: mainCtrl.messageBox.type === 'error'
+            }"
+          >
+            <p>{{mainCtrl.messageBox.text}}</p>
+          </section>
         </main>
 
 
@@ -127,6 +163,7 @@
         <script src="app/index.controller.js"></script>
         <script src="app/index.filters.js"></script>
         <script src="app/index.provider.js"></script>
+        <script src="app/messageBox.service.js"></script>
         <script src="app/game/game.service.js"></script>
         <script src="app/guests/guests.service.js"></script>
         <script src="app/login/adminData.service.js"></script>
